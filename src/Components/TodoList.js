@@ -19,11 +19,30 @@ const TodoList = () => {
         dispatch(deleted(todoId))
     }
 
+    const filters = useSelector((state) => state.filters)
     return (
         <>
             {
-                todos
-                    ?.map(todo =>
+                todos?.filter(todo => {
+                    const { status } = filters;
+                    switch (status) {
+                        case 'Complete':
+                            return todo.completed;
+                        case 'Incomplete':
+                            return !todo.completed;
+
+
+                        default:
+                            return true;
+                    }
+                }).filter(todo => {
+                    const { colors } = filters;
+                    if (colors.length > 0) {
+                        return colors.includes(todo?.color)
+                    }
+                    return true;
+                })
+                    .map(todo =>
                         <div key={todo?.id}
                             className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0"
                         >
@@ -47,7 +66,7 @@ const TodoList = () => {
                                 )}
                             </div>
 
-                            <div className="select-none flex-1 line-through">
+                            <div className={`select-none flex-1 ${todo?.completed && "line-through"}`}>
                                 {todo?.text}
                             </div>
 

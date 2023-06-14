@@ -8,7 +8,7 @@ const initialState = [
     {
         id: 2,
         text: 'learn redux',
-        completed: 'false',
+        completed: false,
         color: 'red'
     }
 ]
@@ -23,7 +23,9 @@ const reducer = (state = initialState, action) => {
             return [
                 ...state,
                 {
-                    id: nextTodoId(state)
+                    id: nextTodoId(state),
+                    text: action.payload,
+                    complete: false
                 }
             ]
         case TOGGLED:
