@@ -11,7 +11,7 @@ const Header = () => {
         setInput('')
     }
 
-
+    // For complete part
     const completeAll = () => {
         dispatch(allCompleted())
     }
