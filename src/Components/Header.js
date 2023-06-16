@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { added, allCompleted, clearCompleted } from '../redux/todos/actions';
 import { useDispatch } from 'react-redux';
+import addTodo from '../redux/todos/thunk/addTodo';
 
 const Header = () => {
     const [input, setInput] = useState('')
     const dispatch = useDispatch()
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(added(input))
+        dispatch(addTodo(input))
         setInput('')
     }
 

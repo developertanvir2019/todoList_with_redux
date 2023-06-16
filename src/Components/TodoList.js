@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { colorSelected, deleted, toggled } from '../redux/todos/actions';
 import fetchTodos from '../redux/todos/thunk/fetchTodo';
+import updateStatus from '../redux/todos/thunk/updateStatus';
+import updateColor from '../redux/todos/thunk/updateColor';
+import deleteTodo from '../redux/todos/thunk/deleteTodo';
 
 const TodoList = () => {
     const todos = useSelector((state) => state.todos)
@@ -12,17 +15,17 @@ const TodoList = () => {
         dispatch(fetchTodos)
     }, [dispatch])
 
-    const handleStatusChange = (todoId) => {
-        dispatch(toggled(todoId))
+    const handleStatusChange = (todoId, complete) => {
+        dispatch(updateStatus(todoId, complete))
     }
 
     const handleColorChange = (todoId, color) => {
-        dispatch(colorSelected(todoId, color))
+        dispatch(updateColor(todoId, color))
     }
 
 
     const handleDelete = (todoId) => {
-        dispatch(deleted(todoId))
+        dispatch(deleteTodo(todoId))
     }
 
     return (
@@ -50,13 +53,13 @@ const TodoList = () => {
                             className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0"
                         >
                             <div
-                                className={`rounded-full bg-white border-2 border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2  ${todo?.completed === true ? "focus-within:border-green-500 border-green-500" : ""}`}
+                                className={`relative rounded-full bg-white border-2 border-gray-400 w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2  ${todo?.completed === true ? "focus-within:border-green-500 border-green-500" : ""}`}
 
                             >
                                 <input
                                     type="checkbox"
                                     checked={todo?.completed}
-                                    onChange={() => handleStatusChange(todo?.id)}
+                                    onChange={() => handleStatusChange(todo?.id, todo?.completed)}
                                     className="opacity-0 absolute rounded-full"
                                 />
                                 {todo?.completed === true && (
