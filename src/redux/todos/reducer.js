@@ -1,17 +1,5 @@
-import { ADDED, ALLCOMPLETED, CLEARCOMPLETED, COLORSELECTED, DELETED, TOGGLED, } from "./actionType"
-const initialState = [
-    {
-        id: 1,
-        text: 'Learn react js',
-        completed: true
-    },
-    {
-        id: 2,
-        text: 'learn redux',
-        completed: false,
-        color: 'red'
-    }
-]
+import { ADDED, ALLCOMPLETED, CLEARCOMPLETED, COLORSELECTED, DELETED, LOADED, TOGGLED, } from "./actionType"
+const initialState = []
 const nextTodoId = (todos) => {
     const maxid = todos.reduce((maxid, todo) => Math.max(todo.id, maxid), -1)
     return maxid + 1;
@@ -19,6 +7,8 @@ const nextTodoId = (todos) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOADED:
+            return action.payload
         case ADDED:
             return [
                 ...state,

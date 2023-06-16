@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { colorSelected, deleted, toggled } from '../redux/todos/actions';
+import fetchTodos from '../redux/todos/thunk/fetchTodo';
 
 const TodoList = () => {
     const todos = useSelector((state) => state.todos)
-
+    const filters = useSelector((state) => state.filters)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTodos)
+    }, [dispatch])
+
     const handleStatusChange = (todoId) => {
         dispatch(toggled(todoId))
     }
@@ -19,7 +25,6 @@ const TodoList = () => {
         dispatch(deleted(todoId))
     }
 
-    const filters = useSelector((state) => state.filters)
     return (
         <>
             {
@@ -30,8 +35,6 @@ const TodoList = () => {
                             return todo.completed;
                         case 'Incomplete':
                             return !todo.completed;
-
-
                         default:
                             return true;
                     }
